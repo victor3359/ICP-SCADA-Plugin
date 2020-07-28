@@ -423,8 +423,8 @@
     {
       "TagName": "Ind71",
       "VisibleString": "MTR1 OLTC R/L",
-      "State_TRUE": "本地",
-      "State_FALSE": "遙控"
+      "State_TRUE": "上升",
+      "State_FALSE": "下降"
     },
     {
       "TagName": "Ind72",
@@ -471,8 +471,8 @@
     {
       "TagName": "Ind79",
       "VisibleString": "MTR2 OLTC R/L",
-      "State_TRUE": "本地",
-      "State_FALSE": "遙控"
+      "State_TRUE": "上升",
+      "State_FALSE": "下降"
     },
     {
       "TagName": "Ind80",
@@ -513,8 +513,8 @@
     {
       "TagName": "Ind86",
       "VisibleString": "MTR3 OLTC A/M",
-      "State_TRUE": "自動",
-      "State_FALSE": "手動"
+      "State_TRUE": "上升",
+      "State_FALSE": "下降"
     },
     {
       "TagName": "Ind87",
