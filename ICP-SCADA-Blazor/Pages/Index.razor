@@ -37,7 +37,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await setTimer();
+        setTimer();
         await UpdateData();
         await SettingUpdateListener();
     }
@@ -99,10 +99,10 @@
         hubConnection.On<string>("ReceivedUpdate", (msg) =>
         {
             message = msg;
-            UpdateData();
             isSelect = false;
             CounterDown = 0;
             AutoUnselect.Stop();
+            UpdateData();
 
             InvokeAsync(() =>
             {
@@ -112,7 +112,7 @@
         await hubConnection.StartAsync();
     }
 
-    private async Task setTimer()
+    private void setTimer()
     {
         AutoUnselect = new Timer(1000);
         AutoUnselect.Elapsed += onAutoUnselect;
