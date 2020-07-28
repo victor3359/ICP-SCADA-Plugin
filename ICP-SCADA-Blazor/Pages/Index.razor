@@ -46,6 +46,8 @@
         TagoutList = await TagoutService.GetTagoutListAsync();
         await setTimer();
 
+        permition = false;
+
         if (DataObject != null)
         {
             var tagoutItem = (from data in this.TagoutList
@@ -65,19 +67,16 @@
                 else
                 {
                     tagoutInfo = "掛牌中，禁止控制命令。";
-                    permition = false;
                 }
             }
             else
             {
                 tagoutInfo = "無法辨識的點位名稱。";
-                permition = false;
             }
         }
         else
         {
             tagoutInfo = "無法辨識的點位或命令。";
-            permition = false;
         }
     }
 
