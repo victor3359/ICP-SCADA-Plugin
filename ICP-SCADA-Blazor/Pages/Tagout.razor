@@ -1,0 +1,265 @@
+﻿@page "/tagoutList"
+@page "/tagoutList/{DataObject}"
+
+@using ICP_SCADA_Blazor.Data
+@using Microsoft.AspNetCore.SignalR.Client
+
+@inject TagoutService TagoutService
+@inject IJSRuntime JsRuntime
+@inject IModalService Modal
+@inject NavigationManager NavigationManager
+
+<h1>@TagoutService.VisibleTranslate(DataObject) 掛牌列表</h1>
+
+@if (TagoutList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Button @onclick="AddTagout" Type="primary">新增掛牌</Button>
+    <Button @onclick="SetAutoUnselectTimming" Type="primary">自動取消秒數設定</Button>
+    <Button @onclick="onBack" Type="primary">返回控制頁面</Button>
+    <span style="float:right;">
+        <MatTextField @bind-Value="@searchString" Label="掛牌搜尋" TValue="string" @onkeyup="searchTable" @oninput="searchTable"
+                      @onfocusout="searchTable"></MatTextField>
+    </span>
+    <p></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>編號</th>
+                <th>掛牌點位</th>
+                <th>掛牌時間</th>
+                <th>掛牌原因</th>
+                <th>描述</th>
+                <th>掛牌者</th>
+                <th>卸牌</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in TableList)
+            {
+                <tr>
+                    <td>@item.Index</td>
+                    <td>@item.VisibleString</td>
+                    <td>@item.Datetime</td>
+                    <td>@item.Reason</td>
+                    <td>@item.Comment</td>
+                    <td>@item.Owner</td>
+                    <td>
+                        <Button Type="button" @onclick="()=> { onRemove(item.Index, item.item, item.VisibleString); }" Danger="true" Disabled="item.Special">卸牌</Button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <MatPaginator Label="顯示筆數" PageLabel="目前頁面" Length="@JustTagList.Count()" PageSize="@pageSize" Page="@OnPage"></MatPaginator>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string DataObject { get; set; }
+
+    private List<TagoutList> TagoutList = new List<TagoutList>();
+    private List<TagoutList> JustTagList = new List<TagoutList>();
+    private List<TagoutList> searchList = new List<TagoutList>();
+    private List<TagoutList> TableList = new List<TagoutList>();
+    private string searchString;
+
+    private HubConnection hubConnection;
+
+
+    private int pageSize = 5;
+    private int pageIndex = 0;
+
+    void OnPage(MatPaginatorPageEvent e)
+    {
+        pageSize = e.PageSize;
+        pageIndex = e.PageIndex;
+        TableList.Clear();
+        if (searchList.Count() != 0)
+        {
+            for (int i = pageIndex * pageSize; i < pageIndex * pageSize + pageSize && i < searchList.Count(); i++)
+            {
+                TableList.Add(searchList[i]);
+                TableList[i - pageIndex * pageSize].Index = i - pageIndex * pageSize + 1;
+            }
+        }
+        else
+        {
+            for (int i = pageIndex * pageSize; i < pageIndex * pageSize + pageSize && i < JustTagList.Count(); i++)
+            {
+                TableList.Add(JustTagList[i]);
+                TableList[i - pageIndex * pageSize].Index = i - pageIndex * pageSize + 1;
+            }
+        }
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateTableData();
+        await SettingUpdateListener();
+    }
+
+    private async Task UpdateTableData()
+    {
+        TagoutList = await TagoutService.GetTagoutListAsync();
+        JustTagList = (from t in TagoutList
+                       where t.item == DataObject || t.item == @"Global"
+                       orderby t.Owner descending
+                       select t).ToList();
+        TableList.Clear();
+
+        if (searchList.Count() != 0)
+        {
+            for (int i = pageIndex * pageSize; i < pageIndex * pageSize + pageSize && i < searchList.Count(); i++)
+            {
+                TableList.Add(searchList[i]);
+                TableList[i - pageIndex * pageSize].Index = i - pageIndex * pageSize + 1;
+            }
+        }
+        else
+        {
+            for (int i = pageIndex * pageSize; i < pageIndex * pageSize + pageSize && i < JustTagList.Count(); i++)
+            {
+                TableList.Add(JustTagList[i]);
+                TableList[i - pageIndex * pageSize].Index = i - pageIndex * pageSize + 1;
+            }
+        }
+    }
+
+    private async Task SettingUpdateListener()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/_Update"), (opts) =>
+            {
+                opts.HttpMessageHandlerFactory = (message) =>
+                {
+                    if (message is HttpClientHandler clientHandler)
+                        // bypass SSL certificate
+                        clientHandler.ServerCertificateCustomValidationCallback +=
+                            (sender, certificate, chain, sslPolicyErrors) => { return true; };
+                    return message;
+                };
+            })
+            .Build();
+
+        hubConnection.On<string>("ReceivedUpdate", (msg) =>
+        {
+            UpdateTableData();
+
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        });
+        await hubConnection.StartAsync();
+    }
+
+    private async Task AddTagout()
+    {
+        int tagoutQuantity = 0;
+        if (JustTagList.Count() != 0)
+        {
+            tagoutQuantity = JustTagList.Last().Index;
+        }
+        var TagItem = DataObject;
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(AddTagoutModal.tagoutQuantity), tagoutQuantity);
+        parameters.Add(nameof(AddTagoutModal.tagoutItem), TagItem);
+        var TagoutModal = Modal.Show<AddTagoutModal>("新增掛牌", parameters);
+        var result = await TagoutModal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine($"AddTagout {DataObject}'s Modal was cancelled");
+        }
+        else
+        {
+            TagoutService.AddTagoutList((TagoutList)result.Data);
+            await UpdateTableData();
+        }
+    }
+
+    private async Task SetAutoUnselectTimming()
+    {
+        var timming = await TagoutService.GetAutoUnselectTimming();
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(AutoUnselectModal.Timming), timming);
+        var TagoutModal = Modal.Show<AutoUnselectModal>("自動取消秒數設置", parameters);
+        var result = await TagoutModal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine($"Auto Unselect Modal was cancelled");
+        }
+        else
+        {
+            TagoutService.ModifyAutoUnselectTimming((int)result.Data);
+        }
+    }
+
+    private async Task searchTable()
+    {
+        if (!String.IsNullOrEmpty(searchString))
+        {
+            searchList = (from t in JustTagList
+                          where t.item.Contains(searchString)
+                          || t.Index.ToString().Contains(searchString)
+                          || t.Owner.Contains(searchString)
+                          || t.Reason.Contains(searchString)
+                          || t.VisibleString.Contains(searchString)
+                          select t).ToList();
+            TableList.Clear();
+            for (int i = 0; i < pageSize && i < searchList.Count(); i++)
+            {
+                TableList.Add(searchList[i]);
+            }
+        }
+        else
+        {
+            searchList.Clear();
+            await UpdateTableData();
+        }
+    }
+
+    private async Task onBack()
+    {
+        NavigationManager.NavigateTo($"/{DataObject}");
+    }
+
+    private async Task onRemove(int id, string tstring, string vstring)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(ConfirmRemoveTagout.TagIndex), id);
+        parameters.Add(nameof(ConfirmRemoveTagout.TagName), vstring);
+        var TagoutModal = Modal.Show<ConfirmRemoveTagout>("卸牌訊息", parameters);
+        var result = await TagoutModal.Result;
+
+        if (result.Cancelled)
+        {
+            Console.WriteLine($"RemoveTagout {DataObject}'s Modal was cancelled");
+        }
+        else
+        {
+            Console.WriteLine($"RemoveTagout {DataObject}'s Modal was completed.");
+            TagoutService.RemoveTagoutList(id, tstring);
+            if (searchList.Count() != 0)
+            {
+                var itemToRemove = searchList.Single(r => r.Index == id && r.item == tstring);
+                searchList.Remove(itemToRemove);
+            }
+            await UpdateTableData();
+            await InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        }
+    }
+}
+

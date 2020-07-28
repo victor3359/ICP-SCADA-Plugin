@@ -1,0 +1,170 @@
+﻿@page "/"
+@page "/{DataObject}"
+
+@using ICP_SCADA_Blazor.Data
+@using System.Timers
+
+@inject s61850 s61850
+@inject TagoutService TagoutService
+@inject IJSRuntime JsRuntime
+@inject IModalService Modal
+
+@code{
+    [Parameter]
+    public string DataObject { get; set; }
+    [Parameter]
+    public string Status { get; set; }
+
+    private string tagoutInfo { get; set; }
+    private bool tagState { get; set; }
+    private int tagoutQuantity { get; set; }
+    private string Notify { get; set; }
+
+    private TagoutList[] TagoutList { get; set; }
+    private TagoutList[] ForbiddenedItems { get; set; }
+    private int AutoUnselectTimming { get; set; }
+    Timer AutoUnselect { get; set; }
+    private int CounterDown { get; set; }
+
+    private bool permition { get; set; }
+    private bool isSelect { get; set; }
+    private bool Command { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        TagoutList = await TagoutService.GetTagoutListAsync();
+        await setTimer();
+
+        if (DataObject != null)
+        {
+            var tagoutItem = (from data in this.TagoutList
+                              where data.item == DataObject
+                              select data);
+            ForbiddenedItems = tagoutItem.ToArray();
+            if (DataObject.Contains(@"Ind"))
+            {
+                tagoutQuantity = tagoutItem.Count();
+                Notify += "Command is blocking because these reasons:\n";
+                foreach (var item in tagoutItem)
+                {
+                    Notify += $"Tagout Id: {item.Index}, Reason: {item.Reason}\n";
+                }
+                if (tagoutItem.Count() == 0)
+                {
+                    tagoutInfo = "No Tagout, Command is Accepted.";
+                    permition = true;
+                }
+                else
+                {
+                    tagoutInfo = "Tagout, Command is Forbidden.";
+                }
+            }
+            else
+            {
+                tagoutInfo = "Unrecognizable Tag.";
+            }
+        }
+        else
+        {
+            tagoutInfo = "Unrecognizable Tag or Command.";
+        }
+    }
+
+    private async Task setTimer()
+    {
+        AutoUnselectTimming = await TagoutService.GetAutoUnselectTimming();
+        AutoUnselect = new Timer(1000);
+        AutoUnselect.Elapsed += onAutoUnselect;
+    }
+
+    private void onAutoUnselect(Object source, ElapsedEventArgs e)
+    {
+        CounterDown--;
+        if (CounterDown <= 0)
+        {
+            isSelect = false;
+            AutoUnselect.Stop();
+        }
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private void onClose()
+    {
+        Command = true;
+    }
+
+    private void onOpen()
+    {
+        Command = false;
+    }
+
+    private async Task onSelect()
+    {
+        if (permition)
+        {
+            isSelect = true;
+
+            CounterDown = AutoUnselectTimming;
+            AutoUnselect.Start();
+        }
+        else
+        {
+            //await JsRuntime.InvokeAsync<bool>("alert", Notify);
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(TagoutForbiddenedModal.TagoutList), ForbiddenedItems);
+            var TagoutModal = Modal.Show<TagoutForbiddenedModal>("Info", parameters);
+            var result = await TagoutModal.Result;
+
+            if (result.Cancelled)
+            {
+                Console.WriteLine("Modal was cancelled");
+            }
+            else
+            {
+                Console.WriteLine("Modal was closed");
+            }
+        }
+    }
+
+    private void onOperate()
+    {
+        if (isSelect)
+        {
+            s61850.ModifySpsValue($"CSharp/STGGIO1.{DataObject}", Command);
+            isSelect = false;
+            AutoUnselect.Stop();
+            CounterDown = 0;
+        }
+        else
+        {
+            JsRuntime.InvokeAsync<bool>("alert", "No Select.");
+        }
+    }
+
+    private void onCancel()
+    {
+        isSelect = false;
+        AutoUnselect.Stop();
+        CounterDown = 0;
+    }
+}
+
+<h1>TagName: @DataObject</h1>
+
+<ul>
+    <li>點位名稱: @DataObject</li>
+    <li>掛牌狀態: @tagoutInfo</li>
+    <li>掛牌數量: @tagoutQuantity</li>
+    <li>選取狀態: @isSelect</li>
+    <li>自動取消: @CounterDown</li>
+    <li>控制命令: @Command</li>
+</ul>
+
+<Button @onclick="onClose">Close</Button>
+<Button @onclick="onOpen">Open</Button>
+<Button @onclick="onSelect">Select</Button>
+<Button @onclick="onOperate" Danger="true">Operate</Button>
+<Button @onclick="onCancel">Cancel</Button>

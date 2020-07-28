@@ -1,0 +1,807 @@
+{
+  "Tags": [
+    {
+      "TagName": "Ind1",
+      "VisibleString": "FEEDER1 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind2",
+      "VisibleString": "FEEDER1 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind3",
+      "VisibleString": "FEEDER1 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind4",
+      "VisibleString": "FEEDER2 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind5",
+      "VisibleString": "FEEDER2 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind6",
+      "VisibleString": "FEEDER2 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind7",
+      "VisibleString": "FEEDER3 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind8",
+      "VisibleString": "FEEDER3 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind9",
+      "VisibleString": "FEEDER3 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind10",
+      "VisibleString": "FEEDER4 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind11",
+      "VisibleString": "FEEDER4 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind12",
+      "VisibleString": "FEEDER4 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind13",
+      "VisibleString": "FEEDER5 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind14",
+      "VisibleString": "FEEDER5 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind15",
+      "VisibleString": "FEEDER5 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind16",
+      "VisibleString": "FEEDER6 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind17",
+      "VisibleString": "FEEDER6 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind18",
+      "VisibleString": "FEEDER6 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind19",
+      "VisibleString": "FEEDER7 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind20",
+      "VisibleString": "FEEDER7 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind21",
+      "VisibleString": "FEEDER7 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind22",
+      "VisibleString": "FEEDER8 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind23",
+      "VisibleString": "FEEDER8 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind24",
+      "VisibleString": "FEEDER8 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind25",
+      "VisibleString": "FEEDER9 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind26",
+      "VisibleString": "FEEDER9 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind27",
+      "VisibleString": "FEEDER9 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind28",
+      "VisibleString": "FEEDER10 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind29",
+      "VisibleString": "FEEDER10 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind30",
+      "VisibleString": "FEEDER10 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind31",
+      "VisibleString": "FEEDER11 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind32",
+      "VisibleString": "FEEDER11 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind33",
+      "VisibleString": "FEEDER11 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind34",
+      "VisibleString": "FEEDER12 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind35",
+      "VisibleString": "FEEDER12 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind36",
+      "VisibleString": "FEEDER12 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind37",
+      "VisibleString": "FEEDER13 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind38",
+      "VisibleString": "FEEDER13 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind39",
+      "VisibleString": "FEEDER13 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind40",
+      "VisibleString": "FEEDER14 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind41",
+      "VisibleString": "FEEDER14 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind42",
+      "VisibleString": "FEEDER14 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind43",
+      "VisibleString": "FEEDER15 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind44",
+      "VisibleString": "FEEDER15 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind45",
+      "VisibleString": "FEEDER15 51NX U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind46",
+      "VisibleString": "MAIN310 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind47",
+      "VisibleString": "MAIN310 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind48",
+      "VisibleString": "MAIN310 PT-DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind49",
+      "VisibleString": "MAIN310 81RY U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind50",
+      "VisibleString": "MAIN320 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind51",
+      "VisibleString": "MAIN320 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind52",
+      "VisibleString": "MAIN320 PT-DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind53",
+      "VisibleString": "MAIN320 81RY U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind54",
+      "VisibleString": "MAIN330 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind55",
+      "VisibleString": "MAIN330 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind56",
+      "VisibleString": "MAIN330 PT-DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind57",
+      "VisibleString": "MAIN330 81RY U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind58",
+      "VisibleString": "AUX1 1510 87U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind59",
+      "VisibleString": "AUX1 1520 87U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind60",
+      "VisibleString": "AUX1 1510 79U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind61",
+      "VisibleString": "AUX1 1520 79U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind62",
+      "VisibleString": "AUX2 87B1 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind63",
+      "VisibleString": "AUX2 87B2 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind64",
+      "VisibleString": "AUX3 ACB1",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind65",
+      "VisibleString": "AUX3 ACB2",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind66",
+      "VisibleString": "AUX3 ACB3",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind67",
+      "VisibleString": "MTR1 87T1 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind68",
+      "VisibleString": "MTR1 87T2 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind69",
+      "VisibleString": "MTR1 51Z U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind70",
+      "VisibleString": "MTR1 OLTC A/M",
+      "State_TRUE": "自動",
+      "State_FALSE": "手動"
+    },
+    {
+      "TagName": "Ind71",
+      "VisibleString": "MTR1 OLTC R/L",
+      "State_TRUE": "本地",
+      "State_FALSE": "遙控"
+    },
+    {
+      "TagName": "Ind72",
+      "VisibleString": "MTR1 81 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind73",
+      "VisibleString": "MTR1 81R1 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind74",
+      "VisibleString": "MTR1 81R2 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind75",
+      "VisibleString": "MTR2 87T1 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind76",
+      "VisibleString": "MTR2 87T2 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind77",
+      "VisibleString": "MTR2 51Z U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind78",
+      "VisibleString": "MTR2 OLTC A/M",
+      "State_TRUE": "自動",
+      "State_FALSE": "手動"
+    },
+    {
+      "TagName": "Ind79",
+      "VisibleString": "MTR2 OLTC R/L",
+      "State_TRUE": "本地",
+      "State_FALSE": "遙控"
+    },
+    {
+      "TagName": "Ind80",
+      "VisibleString": "MTR2 81 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind81",
+      "VisibleString": "MTR2 81R1 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind82",
+      "VisibleString": "MTR2 81R2 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind83",
+      "VisibleString": "MTR3 87T1 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind84",
+      "VisibleString": "MTR3 87T2 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind85",
+      "VisibleString": "MTR3 51Z U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind86",
+      "VisibleString": "MTR3 OLTC A/M",
+      "State_TRUE": "自動",
+      "State_FALSE": "手動"
+    },
+    {
+      "TagName": "Ind87",
+      "VisibleString": "MTR3 OLTC R/L",
+      "State_TRUE": "本地",
+      "State_FALSE": "遙控"
+    },
+    {
+      "TagName": "Ind88",
+      "VisibleString": "MTR3 81 U/L",
+      "State_TRUE": "Use",
+      "State_FALSE": "Lock"
+    },
+    {
+      "TagName": "Ind89",
+      "VisibleString": "MTR3 81R1 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind90",
+      "VisibleString": "MTR3 81R2 RESET",
+      "State_TRUE": "TRUE",
+      "State_FALSE": "FALSE"
+    },
+    {
+      "TagName": "Ind91",
+      "VisibleString": "MCC1500 1500 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind92",
+      "VisibleString": "MCC1500 1501 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind93",
+      "VisibleString": "MCC1500 1502 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind94",
+      "VisibleString": "MCC1510 1510 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind95",
+      "VisibleString": "MCC1510 1511 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind96",
+      "VisibleString": "MCC1510 1512 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind97",
+      "VisibleString": "MCC1510 1512E ES",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind98",
+      "VisibleString": "MCC1650 1650 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind99",
+      "VisibleString": "MCC1650 1651 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind100",
+      "VisibleString": "MCC1650 16B1E ES",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind101",
+      "VisibleString": "MCC1650 16B2E ES",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind102",
+      "VisibleString": "MCC1660 1660 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind103",
+      "VisibleString": "MCC1660 1661 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind104",
+      "VisibleString": "MCC1670 1670 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind105",
+      "VisibleString": "MCC1670 1671 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind106",
+      "VisibleString": "MCC1680 1680 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind107",
+      "VisibleString": "MCC1680 1681 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind108",
+      "VisibleString": "SSTR390 390 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind109",
+      "VisibleString": "SSTR390 390 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind110",
+      "VisibleString": "SSTR490 490 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind111",
+      "VisibleString": "SSTR490 490 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind112",
+      "VisibleString": "TIE100 100 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind113",
+      "VisibleString": "TIE100 100 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind114",
+      "VisibleString": "TIE100 100 BR-DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind115",
+      "VisibleString": "TIE200 200 CB",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind116",
+      "VisibleString": "TIE200 200 DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    },
+    {
+      "TagName": "Ind117",
+      "VisibleString": "TIE200 200 BR-DS",
+      "State_TRUE": "投入",
+      "State_FALSE": "啟斷"
+    }
+  ],
+  "Others": [
+    {
+      "ControlTag": "SPCSO1",
+      "VisibleString": "1651 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind99"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO2",
+      "VisibleString": "1661 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind103"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO3",
+      "VisibleString": "1671 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind105"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO4",
+      "VisibleString": "1501 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind92"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO5",
+      "VisibleString": "1502 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind93"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO6",
+      "VisibleString": "1511 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind95"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO7",
+      "VisibleString": "1512 DS Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind96"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO8",
+      "VisibleString": "1512E ES Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind97"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO9",
+      "VisibleString": "16B1E ES Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind100"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO10",
+      "VisibleString": "16B2E ES Interlock",
+      "Reason": "互鎖中",
+      "Comment": "Interlock.",
+      "AssociateTag": [
+        "Ind101"
+      ]
+    },
+    {
+      "ControlTag": "SPCSO11",
+      "VisibleString": "SCADA Active/Standby",
+      "Reason": "SCADA is on Standby Mode",
+      "Comment": "SCADA is on Standby Mode.",
+      "AssociateTag": [
+        "Global"
+      ]
+    }
+  ]
+}

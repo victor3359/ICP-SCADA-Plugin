@@ -1,0 +1,55 @@
+﻿@using ICP_SCADA_Blazor.Data
+
+@inject TagoutService TagoutService
+
+<p>掛牌設定:</p>
+
+<p>
+    <MatTextField @bind-Value="@tagout.VisibleString" Disabled="true" Label="掛牌點位" TValue="string"></MatTextField>
+    <MatTextField @bind-Value="@tagout.Owner" Disabled="true" Label="擁有者" TValue="string"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@tagout.Reason" Label="掛牌原因" Required="true" TValue="string" maxLength="20"></MatTextField>
+</p>
+<p>
+    <MatTextField @bind-Value="@tagout.Comment" Label="掛牌描述" TValue="string" maxLength="20"></MatTextField>
+</p>
+<p style="color:red">@message</p>
+
+
+<Button @onclick="onOKay">新增</Button>
+<Button @onclick="onCancel">取消</Button>
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+    [Parameter] public int tagoutQuantity { get; set; }
+    [Parameter] public string tagoutItem { get; set; }
+
+    private TagoutList tagout = new TagoutList();
+    private string message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tagout.Index = tagoutQuantity + 1;
+        tagout.item = tagoutItem;
+        tagout.VisibleString = TagoutService.VisibleTranslate(tagoutItem);
+        tagout.Owner = @"Admin";
+        tagout.Special = false;
+    }
+
+    void onOKay()
+    {
+        if (String.IsNullOrEmpty(tagout.Reason))
+        {
+            message = @"請於填入必填欄位。";
+        }
+        else
+        {
+            tagout.Datetime = DateTime.Now;
+            BlazoredModal.Close(ModalResult.Ok<TagoutList>(tagout));
+        }
+    }
+    void onCancel()
+    {
+        BlazoredModal.Close(ModalResult.Cancel());
+    }
+}

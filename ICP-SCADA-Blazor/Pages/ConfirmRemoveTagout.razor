@@ -1,0 +1,20 @@
+﻿<h6>確定要將 @TagName 控制點, </h6>
+<h6>掛牌編號 @TagIndex 卸牌嗎?</h6>
+
+<Button @onclick="onOKay">確定</Button>
+<Button @onclick="onCancel">取消</Button>
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    [Parameter] public string TagName { get; set; }
+    [Parameter] public int TagIndex { get; set; }
+
+    void onOKay()
+    {
+        BlazoredModal.Close(ModalResult.Ok<string>(TagName));
+    }
+    void onCancel()
+    {
+        BlazoredModal.Close(ModalResult.Cancel());
+    }
+}

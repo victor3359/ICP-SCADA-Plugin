@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>ICP_SCADA_Blazor</RootNamespace>
+    <ApplicationIcon>ICPSI-Logo.ico</ApplicationIcon>
+    <Authors>Victor Liu</Authors>
+    <Company>ICPSI</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="AddTagoutModal.razor" />
+    <Content Remove="Counter.razor" />
+    <Content Remove="Error.razor" />
+    <Content Remove="Index.razor" />
+    <Content Remove="SetAutoUnselectTimmingModal.razor" />
+    <Content Remove="Tagout.razor" />
+    <Content Remove="TagoutForbiddenedModal.razor" />
+    <Content Remove="_Host.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.1.0" />
+    <PackageReference Include="Blazored.Modal" Version="5.0.2" />
+    <PackageReference Include="MatBlazor" Version="2.6.2" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="iec61850dotnet">
+      <HintPath>Libraries\DLLs\iec61850dotnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,38 @@
+﻿<p>設定秒數:</p>
+
+<MatTextField @bind-Value="@timming" Label="自動取消秒數" Required="true" TValue="string"></MatTextField>
+<p style="color:red">@message</p>
+
+
+<Button @onclick="onOKay">設定</Button>
+<Button @onclick="onCancel">取消</Button>
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; }
+
+    [Parameter] public int Timming { get; set; }
+    private string timming;
+    private int tmp;
+    private string message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        timming = Timming.ToString();
+    }
+
+    void onOKay()
+    {
+        if (String.IsNullOrEmpty(timming) || !int.TryParse(timming, out tmp))
+        {
+            message = @"請輸入正確秒數。";
+        }
+        else
+        {
+            Timming = tmp;
+            BlazoredModal.Close(ModalResult.Ok<int>(Timming));
+        }
+    }
+    void onCancel()
+    {
+        BlazoredModal.Close(ModalResult.Cancel());
+    }
+}

@@ -1,0 +1,246 @@
+﻿@page "/"
+@page "/{DataObject}"
+
+@using Microsoft.AspNetCore.SignalR.Client
+@using ICP_SCADA_Blazor.Data
+@using System.Timers
+
+@inject s61850 s61850
+@inject TagoutService TagoutService
+@inject IJSRuntime JsRuntime
+@inject IModalService Modal
+@inject NavigationManager NavigationManager
+
+@code{
+    [Parameter]
+    public string DataObject { get; set; }
+
+    private HubConnection hubConnection;
+
+    private string message { get; set; }
+
+    private string tagoutInfo { get; set; }
+    private bool tagState { get; set; }
+    private int tagoutQuantity { get; set; }
+    private string Notify { get; set; }
+
+    private List<TagoutList> TagoutList = new List<TagoutList>();
+    private List<TagoutList> ForbiddenedItems = new List<TagoutList>();
+    private int AutoUnselectTimming { get; set; }
+    Timer AutoUnselect { get; set; }
+    private int CounterDown { get; set; }
+
+    private bool permition { get; set; }
+    private bool isSelect { get; set; }
+    private bool Command { get; set; }
+    private string VisibleString_Cmd { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateData();
+        await SettingUpdateListener();
+    }
+
+    private async Task UpdateData()
+    {
+        TagoutList = await TagoutService.GetTagoutListAsync();
+        await setTimer();
+
+        if (DataObject != null)
+        {
+            var tagoutItem = (from data in this.TagoutList
+                              where data.item == DataObject || data.item == @"Global"
+                              orderby data.Owner descending
+                              select data).ToList();
+            ForbiddenedItems = tagoutItem;
+            if (DataObject.Contains(@"Ind"))
+            {
+                tagoutQuantity = ForbiddenedItems.Count();
+                VisibleString_Cmd = @TagoutService.GetFalseString(DataObject);
+                if (tagoutItem.Count() == 0)
+                {
+                    tagoutInfo = "無掛牌記錄，允許控制命令。";
+                    permition = true;
+                }
+                else
+                {
+                    tagoutInfo = "掛牌中，禁止控制命令。";
+                    permition = false;
+                }
+            }
+            else
+            {
+                tagoutInfo = "無法辨識的點位名稱。";
+                permition = false;
+            }
+        }
+        else
+        {
+            tagoutInfo = "無法辨識的點位或命令。";
+            permition = false;
+        }
+    }
+
+    private async Task SettingUpdateListener()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/_Update"), (opts) =>
+            {
+                opts.HttpMessageHandlerFactory = (message) =>
+                {
+                    if (message is HttpClientHandler clientHandler)
+                        // bypass SSL certificate
+                        clientHandler.ServerCertificateCustomValidationCallback +=
+                            (sender, certificate, chain, sslPolicyErrors) => { return true; };
+                    return message;
+                };
+            })
+            .Build();
+
+        hubConnection.On<string>("ReceivedUpdate", (msg) =>
+        {
+            message = msg;
+            UpdateData();
+            isSelect = false;
+            CounterDown = 0;
+            AutoUnselect.Stop();
+
+            InvokeAsync(() =>
+            {
+                StateHasChanged();
+            });
+        });
+        await hubConnection.StartAsync();
+    }
+
+    private async Task setTimer()
+    {
+        AutoUnselectTimming = await TagoutService.GetAutoUnselectTimming();
+        AutoUnselect = new Timer(1000);
+        AutoUnselect.Elapsed += onAutoUnselect;
+    }
+
+    private void onAutoUnselect(Object source, ElapsedEventArgs e)
+    {
+        CounterDown--;
+        if (CounterDown <= 0)
+        {
+            isSelect = false;
+            AutoUnselect.Stop();
+        }
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    private void onClose()
+    {
+        Command = true;
+        VisibleString_Cmd = @TagoutService.GetTrueString(DataObject);
+        message = @"";
+    }
+
+    private void onOpen()
+    {
+        Command = false;
+        VisibleString_Cmd = @TagoutService.GetFalseString(DataObject);
+        message = @"";
+    }
+
+    private async Task onSelect()
+    {
+        if (permition)
+        {
+            isSelect = true;
+
+            CounterDown = AutoUnselectTimming;
+            AutoUnselect.Start();
+        }
+        else
+        {
+            message = @"命令沒有授權。";
+            if (String.IsNullOrEmpty(DataObject))
+            {
+                return;
+            }
+            var parameters = new ModalParameters();
+            parameters.Add(nameof(TagoutForbiddenedModal.TagoutList), ForbiddenedItems.ToArray());
+            var TagoutModal = Modal.Show<TagoutForbiddenedModal>("控制訊息", parameters);
+            var result = await TagoutModal.Result;
+
+            if (result.Cancelled)
+            {
+                Console.WriteLine($"{DataObject} Command Canceled.");
+            }
+            else
+            {
+                Console.WriteLine($"{DataObject} Command Forbiddened.");
+            }
+        }
+    }
+
+    private void onOperate()
+    {
+        if (isSelect)
+        {
+            s61850.ModifySpsValue($"ICPSI/STGGIO1.{DataObject}", Command);
+            isSelect = false;
+            AutoUnselect.Stop();
+            CounterDown = 0;
+            message = $"{VisibleString_Cmd} 命令成功送出。";
+        }
+        else
+        {
+            message = @"請執行Select後再操作。";
+        }
+    }
+
+    private void onCancel()
+    {
+        isSelect = false;
+        AutoUnselect.Stop();
+        CounterDown = 0;
+        message = @"";
+    }
+    private void onTagout()
+    {
+        NavigationManager.NavigateTo($"/tagoutList/{DataObject}");
+    }
+}
+
+<ul>
+    <li>
+        <MatBlazor.MatH6>點位名稱: @TagoutService.VisibleTranslate(DataObject)</MatBlazor.MatH6>
+    </li>
+    <li>
+        <MatBlazor.MatH6>掛牌狀態: @tagoutInfo</MatBlazor.MatH6>
+    </li>
+    <li>
+        <MatBlazor.MatH6>
+            掛牌數量: @tagoutQuantity
+            <span style="padding-left:30px">
+                <MatButton Raised="true" @onclick="onTagout">掛牌設置</MatButton>
+            </span>
+        </MatBlazor.MatH6>
+    </li>
+    <!--
+    <li>
+    <MatBlazor.MatH6>連線狀態: @hubConnection.State</MatBlazor.MatH6>
+    </li>
+    <li>
+        <MatBlazor.MatH6>自動關閉: @CounterDown</MatBlazor.MatH6>
+    </li>
+    -->
+    <li>
+        <MatBlazor.MatH6>控制命令: @VisibleString_Cmd</MatBlazor.MatH6>
+    </li>
+</ul>
+
+
+<Button Disabled="@isSelect" @onclick="onClose" Type="primary">@TagoutService.GetTrueString(DataObject)</Button>
+<Button Disabled="@isSelect" @onclick="onOpen" Type="primary">@TagoutService.GetFalseString(DataObject)</Button>
+<Button Disabled="@isSelect" @onclick="onSelect" Type="primary">Select</Button>
+<Button @onclick="onOperate" Danger="true" Type="primary">Operate</Button>
+<Button @onclick="onCancel" Type="primary">Cancel</Button>
+<p style="color:red">@message</p>
