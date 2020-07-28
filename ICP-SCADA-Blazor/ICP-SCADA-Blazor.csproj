@@ -9,17 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="AddTagoutModal.razor" />
-    <Content Remove="Counter.razor" />
-    <Content Remove="Error.razor" />
-    <Content Remove="Index.razor" />
-    <Content Remove="SetAutoUnselectTimmingModal.razor" />
-    <Content Remove="Tagout.razor" />
-    <Content Remove="TagoutForbiddenedModal.razor" />
-    <Content Remove="_Host.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.1.0" />
     <PackageReference Include="Blazored.Modal" Version="5.0.2" />
     <PackageReference Include="MatBlazor" Version="2.6.2" />

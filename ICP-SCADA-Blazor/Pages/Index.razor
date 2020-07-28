@@ -37,6 +37,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await setTimer();
         await UpdateData();
         await SettingUpdateListener();
     }
@@ -44,8 +45,7 @@
     private async Task UpdateData()
     {
         TagoutList = await TagoutService.GetTagoutListAsync();
-        await setTimer();
-
+        AutoUnselectTimming = await TagoutService.GetAutoUnselectTimming();
         permition = false;
 
         if (DataObject != null)
@@ -114,7 +114,6 @@
 
     private async Task setTimer()
     {
-        AutoUnselectTimming = await TagoutService.GetAutoUnselectTimming();
         AutoUnselect = new Timer(1000);
         AutoUnselect.Elapsed += onAutoUnselect;
     }
